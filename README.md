@@ -28,7 +28,7 @@ HFS 运行中 · 192.168.3.5:1478 · 2 连接     ← 灰字，不可点
 
 ## 开始使用
 
-1. 把 `HfsIndicator.exe` 放进一个**只有你能写**的目录，例如 `D:\Programs\HfsIndicator\`。不要放在共享目录或 `C:\Users\Public`，因为它以管理员权限运行。
+1. 从 [Releases](https://github.com/wiggins-kong/HFS-Indicator/releases) 下载 `HfsIndicator.exe`，放进一个**只有你能写**的目录，例如 `D:\Programs\HfsIndicator\`。不要放在共享目录或 `C:\Users\Public`，因为它以管理员权限运行。
 2. 双击它。通知区出现一个海鸥图标，没有窗口，任务栏也不会有东西。
 3. 想让它每次开机都出现，右键 → 勾选 **开机自启**。
 
