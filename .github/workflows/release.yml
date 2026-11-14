@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish
+        shell: pwsh
+        run: |
+          $version = '${{ github.ref_name }}'.TrimStart('v')
+          dotnet publish -c Release -r win-x64 --self-contained false -p:Version=$version -o out
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: out/HfsIndicator.exe
+          generate_release_notes: true
+          body: |
+            下载 `HfsIndicator.exe` 直接运行，需要 .NET 10 桌面运行时。
+            程序未签名，首次运行时 SmartScreen 可能提示"仍要运行"。
