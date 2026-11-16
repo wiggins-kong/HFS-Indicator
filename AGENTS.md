@@ -33,6 +33,7 @@ dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile
 | `Program.cs` | 单实例互斥、读 `HfsIndicator.json`（只读）、启动 `ApplicationContext` | 改启动流程或配置 |
 | `TrayIcon.cs` | `NotifyIcon`、右键菜单、状态机、3 秒轮询、气泡通知、左右键行为 | 改交互 |
 | `Assets/seagull.png` | 内嵌的主图标底图（256px、透明底、无状态灯） | 换主图标视觉 |
+| `Assets/seagull.ico` | exe 文件图标（由 `seagull.png` 派生的多尺寸 ico） | 换 exe 在资源管理器里的图标 |
 | `HfsApi.cs` | 对 `localhost:{port}` 的 HTTP 调用与 JSON 解析 | 改 HFS 接口 |
 | `HfsService.cs` | 服务定位、启动/停止/重启、15 秒超时、错误文案 | 改服务控制 |
 | `Autostart.cs` | 启动文件夹 `.lnk` 的检查/创建/覆盖 | 改开机自启 |
@@ -48,7 +49,7 @@ dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile
 5. **开机自启只由菜单勾选驱动**。启动时不得偷偷创建或删除快捷方式。勾选态 = `.lnk` 存在且 `TargetPath` 等于当前 exe。
 6. **不自动拉起已停止的服务**。登录时服务是停的就显示灰色，等用户点。
 7. **提权只靠 `app.manifest`**。不要写运行时的二次提权（`ProcessStartInfo.Verb = "runas"`）。
-8. **图标 = 内嵌 `Assets/seagull.png` + 运行时画的右下角状态灯**，只在 `TrayIcon.cs` 一处可改。仍不引入 `.ico` 资源。
+8. **托盘图标 = 内嵌 `Assets/seagull.png` + 运行时画的右下角状态灯**，只在 `TrayIcon.cs` 一处可改。exe 文件图标用 `Assets/seagull.ico`（由同一张 png 派生，换图时两个文件一起重生成），它只出现在资源管理器和任务管理器。
 9. **无窗口、无日志文件、除 `System.ServiceProcess.ServiceController` 外无第三方依赖**。
 10. **所有 HFS 调用走 `localhost:{port}`**，POST 必须带 `x-hfs-anti-csrf: 1`，否则 403。
 
@@ -74,7 +75,7 @@ body: {}
 
 ## 改动后自检
 
-1. `dotnet publish` 无警告，产物是单个 exe。
+1. `dotnet publish` 无警告，产物是单个 exe，且 exe 在资源管理器里显示海鸥图标。
 2. 双击 → 无窗口、通知区只多一个图标、进程是提升的。
 3. 右键 → 暂停服务：服务 `Stopped`、1478 不再监听、图标变灰、弹一次气泡。
 4. 右键 → 启动服务：服务 `Running`、首页 200、图标变绿。
@@ -86,7 +87,7 @@ body: {}
 
 ## 不要加的东西
 
-安装包、设置窗口、日志文件、端口扫描、自更新、托盘自己的网络监听、除 `System.ServiceProcess.ServiceController` 之外的依赖、`.ico` 资源文件。
+安装包、设置窗口、日志文件、端口扫描、自更新、托盘自己的网络监听、除 `System.ServiceProcess.ServiceController` 之外的依赖。
 
 ## 已知限制
 

@@ -9,6 +9,7 @@
     <RootNamespace>HfsIndicator</RootNamespace>
     <AssemblyName>HfsIndicator</AssemblyName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\seagull.ico</ApplicationIcon>
     <Version>1.0.0</Version>
     <DebugType>embedded</DebugType>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
